@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<designspace format="5.0">
+  <axes>
+    <axis tag="wght" name="weight" minimum="400" maximum="700" default="400"/>
+  </axes>
+  <sources>
+    <source filename="Elvan_Sans_Output/ElvanSans-Regular.ttf" name="Regular">
+      <location>
+        <dimension name="weight" xvalue="400"/>
+      </location>
+    </source>
+    <source filename="Elvan_Sans_Output/ElvanSans-Bold.ttf" name="Bold">
+      <location>
+        <dimension name="weight" xvalue="700"/>
+      </location>
+    </source>
+  </sources>
+</designspace>
