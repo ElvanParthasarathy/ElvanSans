@@ -5,3 +5,5 @@ source/Elvan_Sans_Output/
 # Ignore Python caches
 __pycache__/
 *.pyc
+
+tests/
