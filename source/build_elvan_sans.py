@@ -47,37 +47,73 @@ def finalize_font(font_path, new_family_name, style_name):
     full_name = f"{new_family_name} {style_name}"
     postscript_name = f"{new_family_name.replace(' ', '')}-{style_name.replace(' ', '')}"
     
+    # Determine RBIZ base family and style for MS Word grouping
+    rbiz_styles = ["Regular", "Italic", "Bold", "BoldItalic", "Bold Italic"]
+    if style_name in rbiz_styles:
+        nameID_1 = new_family_name
+        nameID_2 = style_name.replace("BoldItalic", "Bold Italic")
+    else:
+        # It's an extended weight like Medium or SemiBold
+        if "Italic" in style_name:
+            weight_part = style_name.replace("Italic", "").strip()
+            nameID_1 = f"{new_family_name} {weight_part}"
+            nameID_2 = "Italic"
+        else:
+            nameID_1 = f"{new_family_name} {style_name}"
+            nameID_2 = "Regular"
+            
+    nameID_16 = new_family_name
+    nameID_17 = style_name
+    
     for record in name_table.names:
         if record.nameID == 0:
             record.string = "Copyright 2026 Elvan Parthasarathy. Based on Google Sans and Mukta Malar (SIL Open Font License).".encode(record.getEncoding())
-        elif record.nameID == 1 or record.nameID == 16:
-            record.string = new_family_name.encode(record.getEncoding())
-        elif record.nameID == 2 or record.nameID == 17:
-            record.string = style_name.encode(record.getEncoding())
+        elif record.nameID == 1:
+            record.string = nameID_1.encode(record.getEncoding())
+        elif record.nameID == 2:
+            record.string = nameID_2.encode(record.getEncoding())
         elif record.nameID == 3 or record.nameID == 4:
             record.string = full_name.encode(record.getEncoding())
         elif record.nameID == 6:
             record.string = postscript_name.encode(record.getEncoding())
         elif record.nameID == 7:
             record.string = "".encode(record.getEncoding())
-        elif record.nameID == 8:
-            record.string = "Elvan Parthasarathy".encode(record.getEncoding())
-        elif record.nameID == 9:
+        elif record.nameID == 8 or record.nameID == 9:
             record.string = "Elvan Parthasarathy".encode(record.getEncoding())
         elif record.nameID == 10:
             record.string = "Elvan Sans is a composite font created by Elvan Parthasarathy, combining Google Sans and Mukta Malar under the SIL Open Font License.".encode(record.getEncoding())
-        elif record.nameID == 11:
-            record.string = "https://github.com/ElvanParthasarathy".encode(record.getEncoding())
-        elif record.nameID == 12:
+        elif record.nameID == 11 or record.nameID == 12:
             record.string = "https://github.com/ElvanParthasarathy".encode(record.getEncoding())
         elif record.nameID == 13:
             record.string = "This Font Software is licensed under the SIL Open Font License, Version 1.1. This font is a composite of Google Sans and Mukta Malar.".encode(record.getEncoding())
+        elif record.nameID == 16:
+            record.string = nameID_16.encode(record.getEncoding())
+        elif record.nameID == 17:
+            record.string = nameID_17.encode(record.getEncoding())
+            
+    is_italic = "Italic" in style_name
+    is_bold = "Bold" in style_name
+    if 'head' in font:
+        if is_italic:
+            font['head'].macStyle |= (1 << 1)
+        else:
+            font['head'].macStyle &= ~(1 << 1)
+        if is_bold:
+            font['head'].macStyle |= (1 << 0)
+        else:
+            font['head'].macStyle &= ~(1 << 0)
             
     # 2. Fix Metrics (Mukta Malar: Ascent 1130, Descent 532)
     if 'OS/2' in font:
         os2 = font['OS/2']
         os2.usWinAscent = 1130
         os2.usWinDescent = 532
+        
+        # Enforce OS/2 selection bits
+        os2.fsSelection &= ~((1 << 0) | (1 << 5) | (1 << 6))
+        if is_italic: os2.fsSelection |= (1 << 0)
+        if is_bold: os2.fsSelection |= (1 << 5)
+        if not is_italic and not is_bold: os2.fsSelection |= (1 << 6)
         
         # 3. Fix Unicode Ranges for MS Word
         # Bit 15: Devanagari, 16: Bengali, 17: Gurmukhi, 18: Gujarati, 19: Oriya, 20: Tamil, 21: Telugu, 22: Kannada, 23: Malayalam
@@ -108,18 +144,18 @@ def main():
             
         # Map style to Mukta Malar weight
         mukta_weight = "Regular"
-        if "Bold" in style:
-            mukta_weight = "Bold"
+        if "ExtraBold" in style:
+            mukta_weight = "ExtraBold"
         elif "SemiBold" in style:
             mukta_weight = "SemiBold"
+        elif "Bold" in style:
+            mukta_weight = "Bold"
         elif "Medium" in style:
             mukta_weight = "Medium"
         elif "ExtraLight" in style:
             mukta_weight = "ExtraLight"
         elif "Light" in style:
             mukta_weight = "Light"
-        elif "ExtraBold" in style:
-            mukta_weight = "ExtraBold"
             
         is_italic = "Italic" in style
         if style == "Italic":
