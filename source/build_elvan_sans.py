@@ -38,11 +38,12 @@ def skew_font(font_path, output_path, angle_degrees=10):
         font['OS/2'].fsSelection &= ~(1 << 6) # unset regular
     font.save(output_path)
 
-def rename_font(font_path, new_family_name, style_name):
-    print(f"Renaming {font_path} to {new_family_name} {style_name}")
+def finalize_font(font_path, new_family_name, style_name):
+    print(f"Finalizing {font_path} to {new_family_name} {style_name}")
     font = TTFont(font_path)
-    name_table = font['name']
     
+    # 1. Rename
+    name_table = font['name']
     full_name = f"{new_family_name} {style_name}"
     postscript_name = f"{new_family_name.replace(' ', '')}-{style_name.replace(' ', '')}"
     
@@ -56,6 +57,16 @@ def rename_font(font_path, new_family_name, style_name):
         elif record.nameID == 6:
             record.string = postscript_name.encode(record.getEncoding())
             
+    # 2. Fix Metrics (Mukta Malar: Ascent 1130, Descent 532)
+    if 'OS/2' in font:
+        os2 = font['OS/2']
+        os2.usWinAscent = 1130
+        os2.usWinDescent = 532
+        
+        # 3. Fix Unicode Ranges for MS Word
+        # Bit 15: Devanagari, 16: Bengali, 17: Gurmukhi, 18: Gujarati, 19: Oriya, 20: Tamil, 21: Telugu, 22: Kannada, 23: Malayalam
+        os2.ulUnicodeRange1 |= (1 << 15) | (1 << 16) | (1 << 17) | (1 << 18) | (1 << 19) | (1 << 20) | (1 << 21) | (1 << 22) | (1 << 23)
+            
     font.save(font_path)
 
 def main():
@@ -65,6 +76,7 @@ def main():
     os.makedirs(temp_dir, exist_ok=True)
     
     non_tamil_range = "U+0000-0B7F,U+0C00-11FBF,U+12000-10FFFF"
+    tamil_only_range = "U+0B80-0BFF,U+200C,U+200D,U+25CC"
     
     google_fonts_dir = "Google_Sans/static"
     for filename in os.listdir(google_fonts_dir):
@@ -118,29 +130,43 @@ def main():
                 skew_font(mukta_font, mukta_processed, 10.0)
                 
         google_subset = os.path.join(temp_dir, f"{name_part}.subset.ttf")
+        mukta_subset = os.path.join(temp_dir, f"MuktaMalar-{mukta_weight}-subset.ttf")
         merged_font = os.path.join(out_dir, new_filename)
         
-        # Strip Tamil rules from Google Sans
+        # 1. Isolate Google Sans: Strip Tamil unicodes and EXCLUDE Tamil layout scripts
         run_cmd([
             sys.executable, "-m", "fontTools.subset", google_font,
             f"--unicodes={non_tamil_range}",
             "--layout-features=*",
-            "--layout-scripts=*",
+            "--layout-scripts=*,-taml,-tml2",
             "--glyph-names", "--symbol-cmap", "--legacy-cmap",
             "--notdef-glyph", "--notdef-outline", "--recommended-glyphs",
             "--name-IDs=*", "--name-legacy", "--name-languages=*",
             f"--output-file={google_subset}"
         ])
         
-        # Merge subsetted Google Sans with UN-SUBSETTED Mukta Malar
+        # 2. Isolate Mukta Malar: Keep ONLY Tamil unicodes and ONLY Tamil layout scripts
+        run_cmd([
+            sys.executable, "-m", "fontTools.subset", mukta_processed,
+            f"--unicodes={tamil_only_range}",
+            "--layout-features=*",
+            "--layout-scripts=taml,tml2",
+            "--glyph-names", "--symbol-cmap", "--legacy-cmap",
+            "--notdef-glyph", "--notdef-outline", "--recommended-glyphs",
+            "--name-IDs=*", "--name-legacy", "--name-languages=*",
+            f"--output-file={mukta_subset}"
+        ])
+        
+        # 3. Merge clean subsets
         run_cmd([
             sys.executable, "-m", "fontTools.merge",
             google_subset,
-            mukta_processed,
+            mukta_subset,
             f"--output-file={merged_font}"
         ])
         
-        rename_font(merged_font, new_family, style)
+        # 4. Finalize naming and metadata
+        finalize_font(merged_font, new_family, style)
         
     print("\nDone! All variations processed.")
 
