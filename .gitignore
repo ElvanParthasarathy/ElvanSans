@@ -7,3 +7,9 @@ __pycache__/
 *.pyc
 
 tests/
+
+# Ignore the Google Fonts fork directory (it's a separate repo)
+fonts_fork/
+
+# Ignore temporary test TTF files in the source directory
+source/*.ttf
