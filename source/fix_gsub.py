@@ -19,8 +19,13 @@ def main():
                     # It's a SingleSubst table
                     keys_to_delete = []
                     for in_glyph, out_glyph in st.mapping.items():
-                        if out_glyph.endswith('.1'):
+                        if isinstance(out_glyph, str) and out_glyph.endswith('.1'):
                             keys_to_delete.append(in_glyph)
+                        elif isinstance(out_glyph, list) and any(g.endswith('.1') for g in out_glyph):
+                            st.mapping[in_glyph] = [g for g in out_glyph if not g.endswith('.1')]
+                            if len(st.mapping[in_glyph]) == 0:
+                                keys_to_delete.append(in_glyph)
+                            modified = True
                     
                     for k in keys_to_delete:
                         del st.mapping[k]

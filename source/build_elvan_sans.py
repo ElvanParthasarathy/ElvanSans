@@ -124,11 +124,11 @@ def main():
         run_cmd([
             sys.executable, "-m", "fontTools.subset", google_font,
             f"--unicodes={non_tamil_range}",
-            "--layout-features='*'",
-            "--layout-scripts-=taml,tml2",
+            "--layout-features=*",
+            "--layout-scripts=*",
             "--glyph-names", "--symbol-cmap", "--legacy-cmap",
             "--notdef-glyph", "--notdef-outline", "--recommended-glyphs",
-            "--name-IDs='*'", "--name-legacy", "--name-languages='*'",
+            "--name-IDs=*", "--name-legacy", "--name-languages=*",
             f"--output-file={google_subset}"
         ])
         

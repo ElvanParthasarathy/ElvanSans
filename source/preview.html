@@ -1,19 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elvan Sans - Font Preview</title>
     <style>
         /* Define Font Faces */
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-Regular.ttf'); font-weight: 400; font-style: normal; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-Italic.ttf'); font-weight: 400; font-style: italic; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-Medium.ttf'); font-weight: 500; font-style: normal; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-MediumItalic.ttf'); font-weight: 500; font-style: italic; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-SemiBold.ttf'); font-weight: 600; font-style: normal; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-SemiBoldItalic.ttf'); font-weight: 600; font-style: italic; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-Bold.ttf'); font-weight: 700; font-style: normal; }
-        @font-face { font-family: 'Elvan Sans'; src: url('../fonts/ttf/ElvanSans-BoldItalic.ttf'); font-weight: 700; font-style: italic; }
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-Regular.ttf');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-Italic.ttf');
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-Medium.ttf');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-MediumItalic.ttf');
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-SemiBold.ttf');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-SemiBoldItalic.ttf');
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-Bold.ttf');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Elvan Sans';
+            src: url('../fonts/ttf/ElvanSans-BoldItalic.ttf');
+            font-weight: 700;
+            font-style: italic;
+        }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -29,7 +77,7 @@
             background: white;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
@@ -81,8 +129,8 @@
             display: flex;
             gap: 20px;
         }
-        
-        .mixed-text > div {
+
+        .mixed-text>div {
             flex: 1;
             padding: 20px;
             background: #fcfcfc;
@@ -91,21 +139,49 @@
         }
 
         /* Weights & Styles Classes */
-        .w400 { font-weight: 400; }
-        .w400-i { font-weight: 400; font-style: italic; }
-        .w500 { font-weight: 500; }
-        .w500-i { font-weight: 500; font-style: italic; }
-        .w600 { font-weight: 600; }
-        .w600-i { font-weight: 600; font-style: italic; }
-        .w700 { font-weight: 700; }
-        .w700-i { font-weight: 700; font-style: italic; }
+        .w400 {
+            font-weight: 400;
+        }
+
+        .w400-i {
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .w500 {
+            font-weight: 500;
+        }
+
+        .w500-i {
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        .w600 {
+            font-weight: 600;
+        }
+
+        .w600-i {
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .w700 {
+            font-weight: 700;
+        }
+
+        .w700-i {
+            font-weight: 700;
+            font-style: italic;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <h1>Elvan Sans Preview</h1>
-        
+
         <div class="controls">
             <label for="fontSize">Font Size: <span id="sizeValue">24px</span></label>
             <input type="range" id="fontSize" min="12" max="72" value="24">
@@ -134,8 +210,20 @@
         ];
 
         const englishText = "Elvan Sans is a modern typeface designed for seamless typography and excellent readability across all digital platforms. The quick brown fox jumps over the lazy dog. 0123456789 !@#$%^&*()";
-        
-        const tamilText = "எலவன் சான்ஸ் ஒரு அழகான நவீன அச்சுமுகமாகும். இது சிறந்த வாசிப்பு அனுபவத்திற்காக சிறப்பாக வடிவமைக்கப்பட்டுள்ளது. 0123456789 !@#$%^&*() இந்தியா எனது தாய்நாடு, எல்லா இந்தியர்களும் என் உடன்பிறப்புகள்.";
+
+        const tamilText = `
+            <div style="font-size: 0.85em; line-height: 1.8;">
+                <strong>உயிரெழுத்துக்கள் (Vowels):</strong> அ ஆ இ ஈ உ ஊ எ ஏ ஐ ஒ ஓ ஔ ஃ<br>
+                <strong>மெய்யெழுத்துக்கள் (Consonants):</strong> க் ங் ச் ஞ் ட் ண் த் ந் ப் ம் ய் ர் ல் வ் ழ் ள் ற் ன்<br>
+                <strong>உயிர்மெய் (Vowel-Consonants):</strong><br>
+                க கா கி கீ கு കൂ கெ கே கை கொ கோ கௌ<br>
+                ச சா சி சீ சு சூ செ சே சை சொ சோ சௌ<br>
+                த தா தி தீ து தூ தெ தே தை தொ தோ தௌ<br>
+                <strong>க்ரந்த எழுத்துக்கள் (Grantha):</strong> ஜ் ஷ் ஸ் ஹ் க்ஷ் ஸ்ரீ | ஜ ஷ ஸ ஹ க்ஷ<br>
+                <strong>எண்கள் (Numerals):</strong> ௦ ௧ ௨ ௩ ௪ ௫ ௬ ௭ ௮ ௯ ௰ ௱ ௲<br>
+                <strong>Sample:</strong> எலவன் சான்ஸ் ஒரு அழகான நவீன அச்சுமுகமாகும். இது சிறந்த வாசிப்பு அனுபவத்திற்காக வடிவமைக்கப்பட்டுள்ளது.
+            </div>
+        `;
 
         const mixedPassage = `
             Elvan Sans is a versatile font combining English and Tamil perfectly. 
@@ -146,11 +234,11 @@
 
         function renderPreviews() {
             previewContainer.innerHTML = '';
-            
+
             styles.forEach(style => {
                 const section = document.createElement('div');
                 section.className = 'preview-section';
-                
+
                 section.innerHTML = `
                     <div class="style-label">${style.label}</div>
                     
@@ -165,12 +253,45 @@
                         </div>
                     </div>
                     
+                    <div class="mixed-text text-block ${style.class}">
+                        <div>
+                            <strong>Telugu (తెలుగు):</strong><br>
+                            ఎలవన్ సான்స్ ఒక ఆధునిక టైప్‌ఫేస్. ఇది అతుకులు లేని టైపోగ్రఫీ కోసం రూపొందించబడింది. 0123456789
+                        </div>
+                        <div>
+                            <strong>Malayalam (മലയാളം):</strong><br>
+                            തുടർച്ചയായ ടൈപ്പോഗ്രാഫിക്കും മികച്ച വായനാക്ഷമതയ്ക്കും വേണ്ടി രൂപകൽപ്പന ചെയ്ത ഒരു ആധുനിക ടൈപ്പ്ഫേസാണ് എൽവൻ സാൻസ്. 0123456789
+                        </div>
+                    </div>
+
+                    <div class="mixed-text text-block ${style.class}">
+                        <div>
+                            <strong>Devanagari / Hindi (हिन्दी):</strong><br>
+                            एल्वन सैंस एक आधुनिक टाइपफेस है जिसे निर्बाध टाइपोग्राफी के लिए डिज़ाइन किया गया है। 0123456789
+                        </div>
+                        <div>
+                            <strong>Bengali (বাংলা):</strong><br>
+                            এলভান সান্স একটি আধুনিক টাইপফেস যা নিখুঁত টাইপোগ্রাফির জন্য ডিজাইন করা হয়েছে। 0123456789
+                        </div>
+                    </div>
+
+                    <div class="mixed-text text-block ${style.class}">
+                        <div>
+                            <strong>Gujarati (ગુજરાતી):</strong><br>
+                            એલ્વન સેન્સ એ સીમલેસ ટાઇપોગ્રાફી માટે ડિઝાઇન કરાયેલ આધુનિક ટાઇપફેસ છે। 0123456789
+                        </div>
+                        <div>
+                            <strong>Kannada (ಕನ್ನಡ):</strong><br>
+                            ಎಲ್ವನ್ ಸ್ಯಾನ್ಸ್ ತಡೆರಹಿತ ಮುದ್ರಣಕಲೆಗಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಆಧುನಿಕ ಟೈಪ್‌ಫೇಸ್ ಆಗಿದೆ। 0123456789
+                        </div>
+                    </div>
+                    
                     <div class="text-block ${style.class}" style="padding: 20px; background: #fafafa; border-radius: 8px;">
                         <strong>Combined Passage:</strong><br>
                         ${mixedPassage}
                     </div>
                 `;
-                
+
                 previewContainer.appendChild(section);
             });
         }
@@ -187,7 +308,7 @@
                 block.style.fontSize = size;
             });
         });
-        
+
         // Initial setup for default size
         document.querySelectorAll('.text-block').forEach(block => {
             block.style.fontSize = '24px';
@@ -195,4 +316,5 @@
 
     </script>
 </body>
+
 </html>
