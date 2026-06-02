@@ -62,18 +62,18 @@ def main():
             font['hhea'].advanceWidthMax = max_aw
             
             # 3. Sync Vertical Metrics for Android / Apple
-            font['hhea'].ascent = 1130
-            font['hhea'].descent = -532
+            font['hhea'].ascent = yMax
+            font['hhea'].descent = yMin
             font['hhea'].lineGap = 0
             
         # 4. Sync OS/2 Typo Metrics for universal agreement
         if 'OS/2' in font:
             os2 = font['OS/2']
-            os2.sTypoAscender = 1130
-            os2.sTypoDescender = -532
+            os2.sTypoAscender = yMax
+            os2.sTypoDescender = yMin
             os2.sTypoLineGap = 0
-            os2.usWinAscent = 1130
-            os2.usWinDescent = 532
+            os2.usWinAscent = yMax
+            os2.usWinDescent = abs(yMin)
             
         font.save(font_path)
         print(f"  Fixed metrics for {filename}: xMax={xMax}, advanceWidthMax={font['hhea'].advanceWidthMax}")
