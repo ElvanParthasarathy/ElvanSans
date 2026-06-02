@@ -48,7 +48,9 @@ def finalize_font(font_path, new_family_name, style_name):
     postscript_name = f"{new_family_name.replace(' ', '')}-{style_name.replace(' ', '')}"
     
     for record in name_table.names:
-        if record.nameID == 1 or record.nameID == 16:
+        if record.nameID == 0:
+            record.string = "Copyright 2026 Elvan Parthasarathy. Based on Google Sans and Mukta Malar (SIL Open Font License).".encode(record.getEncoding())
+        elif record.nameID == 1 or record.nameID == 16:
             record.string = new_family_name.encode(record.getEncoding())
         elif record.nameID == 2 or record.nameID == 17:
             record.string = style_name.encode(record.getEncoding())
@@ -56,6 +58,20 @@ def finalize_font(font_path, new_family_name, style_name):
             record.string = full_name.encode(record.getEncoding())
         elif record.nameID == 6:
             record.string = postscript_name.encode(record.getEncoding())
+        elif record.nameID == 7:
+            record.string = "".encode(record.getEncoding())
+        elif record.nameID == 8:
+            record.string = "Elvan Parthasarathy".encode(record.getEncoding())
+        elif record.nameID == 9:
+            record.string = "Elvan Parthasarathy".encode(record.getEncoding())
+        elif record.nameID == 10:
+            record.string = "Elvan Sans is a composite font created by Elvan Parthasarathy, combining Google Sans and Mukta Malar under the SIL Open Font License.".encode(record.getEncoding())
+        elif record.nameID == 11:
+            record.string = "https://github.com/ElvanParthasarathy".encode(record.getEncoding())
+        elif record.nameID == 12:
+            record.string = "https://github.com/ElvanParthasarathy".encode(record.getEncoding())
+        elif record.nameID == 13:
+            record.string = "This Font Software is licensed under the SIL Open Font License, Version 1.1. This font is a composite of Google Sans and Mukta Malar.".encode(record.getEncoding())
             
     # 2. Fix Metrics (Mukta Malar: Ascent 1130, Descent 532)
     if 'OS/2' in font:
